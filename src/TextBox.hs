@@ -67,12 +67,12 @@ module TextBox
     -- * Combinators
   , combineProportionally
   , combineEqually
-    -- TextBox.Operators
+    -- * Infix operators
   , (<+|>)
   , (<+|^>)
   , (<+->)
   , (<+-<>)
-    -- TextBox.StringLike
+    -- * String-like class
   , StringLike (..)
   )
 where

@@ -10,6 +10,10 @@ maintainer:          klntsky@gmail.com
 build-type:          Simple
 extra-source-files:
 cabal-version:       >=1.10
+source-repository head
+  type: git
+  location: git://github.com/8084/text-boxes.git
+
 library
   exposed-modules:   TextBox
                    , TextBox.Data
@@ -18,8 +22,12 @@ library
                    , TextBox.Utils
                    , TextBox.Operators
                    , TextBox.Internals
-  -- other-modules:
-  -- other-extensions:
+  other-modules:
+  other-extensions:  MultiParamTypeClasses
+                   , RankNTypes
+                   , FunctionalDependencies
+                   , TypeSynonymInstances
+                   , FlexibleInstances
   build-depends:     base >=4.10 && <4.11
                    , split >=0.2 && < 0.3
   hs-source-dirs:    src
@@ -37,5 +45,16 @@ Test-Suite test
                    , QuickCheck >= 2.10 && <2.11
                    , HUnit
                    , hspec >= 2.4.0 && <2.5
+                   , containers == 0.5.*
+  default-language:  Haskell2010
+
+Test-Suite print-examples
+  type:              exitcode-stdio-1.0
+  main-is:           Main.hs
+  other-modules:
+  hs-source-dirs:    example
+  build-depends:     text-boxes
+                   , base >=4.10 && <4.11
+                   , split >=0.2 && < 0.3
                    , containers == 0.5.*
   default-language:  Haskell2010
