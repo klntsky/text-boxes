@@ -20,7 +20,6 @@ instance StringLike String where
   empty = ""
   space = " "
   newline = "\n"
-  width = maximum . (0:) . map length . splitLines
   lineLength = length
   height str
     | str == empty = 1

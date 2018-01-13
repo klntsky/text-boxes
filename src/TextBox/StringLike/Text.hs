@@ -1,5 +1,3 @@
-{-# LANGUAGE TypeSynonymInstances #-}
-{-# LANGUAGE FlexibleInstances #-}
 {-|
 Module      : TextBox.StringLike.Text
 Description : instance StringLike Text where ...
@@ -12,8 +10,6 @@ module TextBox.StringLike.Text () where
 
 import TextBox.StringLike
 
-import Data.List.Split (splitOn)
-import Data.List (intersperse)
 import qualified Data.Text as T
 
 
@@ -21,7 +17,6 @@ instance StringLike T.Text where
   empty = T.empty
   space = T.singleton ' '
   newline = T.singleton '\n'
-  width = maximum . (0:) . map lineLength . splitLines
   lineLength = T.length
   height str
     | str == empty = 1
