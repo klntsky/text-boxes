@@ -43,6 +43,7 @@ class StringLike a where
   newline :: a
   -- | Get width of a text block (i.e. length of the widest line)
   width :: a -> Int
+  width = maximum . (0:) . map lineLength . splitLines
   -- | Get length of a single line (should be more efficient version
   -- of 'width', it is known that @a@ will never contain 'newline's).
   lineLength :: a -- ^ @a@
@@ -50,6 +51,9 @@ class StringLike a where
   lineLength = width
   -- | Get height of a text block (i.e. count of lines)
   height :: a -> Int
+  height str =
+    let len = length (splitLines str) in
+    if len == 0 then 1 else len
   -- | Convert a text block to a list of lines.
   splitLines :: a -> [a]
   -- | Join lines to form a text block.
