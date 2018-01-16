@@ -32,7 +32,10 @@ Rules:
 - @height space == 1@
 - @height newline == 2@
 - @map height . splitLines = map (const 1) . splitLines@
+- @lineLength a + lineLength b = lineLength (a `append` b)@
 - @width . inverse = width@
+- @splitLines . joinLines = id@
+- 'dropN' and 'takeN' must behave like 'drop' and 'take' respectively.
 -}
 class StringLike a where
   -- | Empty string.

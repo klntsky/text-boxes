@@ -342,6 +342,11 @@ padLeft :: StringLike a => Int -> TextBox a -> TextBox a
 padLeft = unwrapST leftPadder
 
 
+-- | Apply 'centerWidthPadder'
+padCenterWidth :: StringLike a => Int -> TextBox a -> TextBox a
+padCenterWidth = unwrapST centerWidthPadder
+
+
 -- | Apply 'topPadder'
 padTop :: StringLike a => Int -> TextBox a -> TextBox a
 padTop = unwrapST topPadder
@@ -350,6 +355,11 @@ padTop = unwrapST topPadder
 -- | Apply 'bottomPadder'
 padBottom :: StringLike a => Int -> TextBox a -> TextBox a
 padBottom = unwrapST bottomPadder
+
+
+-- | Apply 'centerHeightPadder'
+padCenterHeight :: StringLike a => Int -> TextBox a -> TextBox a
+padCenterHeight = unwrapST centerHeightPadder
 
 
 -- | Construct a 'WidthSetter'.
@@ -380,6 +390,43 @@ combineProportionally (1 % 2) leftPadder rightPadder
 defines a padder that
 centers it's input, but makes padding on the right approximately twice as wide
 as on the left.
+
+@
+> let padder = combineProportionally (1 % 2) leftPadder rightPadder in
+>   map (\n -> (unwrapST padder n (toTextBox "-"))) [1..15]
+
+[TextBox (1x1)
+["-"]
+,TextBox (2x1)
+["- "]
+,TextBox (3x1)
+["-  "]
+,TextBox (4x1)
+[" -  "]
+,TextBox (5x1)
+[" -   "]
+,TextBox (6x1)
+[" -    "]
+,TextBox (7x1)
+["  -    "]
+,TextBox (8x1)
+["  -     "]
+,TextBox (9x1)
+["  -      "]
+,TextBox (10x1)
+["   -      "]
+,TextBox (11x1)
+["   -       "]
+,TextBox (12x1)
+["   -        "]
+,TextBox (13x1)
+["    -        "]
+,TextBox (14x1)
+["    -         "]
+,TextBox (15x1)
+["    -          "]
+]
+@
 -}
 combineProportionally :: SizeTransformer t p =>
   Ratio Int -- ^ Proportion. 'Ratio' is used to make

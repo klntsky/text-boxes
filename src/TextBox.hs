@@ -11,12 +11,14 @@ text.
 
 It is /guaranteed/ (well, actually, due to lack of formal verification, it is
 just /assumed/) that all of the functions and 'SizeTransformer's defined herein
-will never break the appropriate properties encoded in their types.
+will never break the appropriate properties encoded in their types (as long as
+you do not construct your own ones using "TextBox.Internals", of course).
 
 E.g. 'WidthSetter' will never change 'TextBox' properties other than width and
 it will always set the width to be equal to the given number, and the result of
 'combineProportionally' will never be anything other than 'SizeTransformer'
 instance that changes exactly one property of given 'TextBox'.
+
 -}
 module TextBox
   (
@@ -67,6 +69,10 @@ module TextBox
     -- * Combinators
   , combineProportionally
   , combineEqually
+    -- * Transformers
+  , hFlip
+  , vFlip
+  , transposeBox
     -- * Infix operators
   , (<+|>)
   , (<+|^>)
@@ -79,6 +85,7 @@ where
 
 import TextBox.Data
 import TextBox.Utils
+import TextBox.Utils.Transform
 import TextBox.Internals
 import TextBox.Operators
 import TextBox.StringLike

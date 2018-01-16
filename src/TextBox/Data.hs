@@ -36,7 +36,11 @@ instance Show a => Show (TextBox a) where
   show (TextBox w h ls) = "TextBox (" ++ show w ++ "x" ++ show h ++ ")\n" ++ show ls ++ "\n"
 
 
-
-getWidth, getHeight :: StringLike a => TextBox a -> Int
+-- | Get width of a 'TextBox'.
+getWidth :: StringLike a => TextBox a -> Int
 getWidth (TextBox w _ _) = w
+
+
+-- | Get height of a 'TextBox'.
+getHeight :: StringLike a => TextBox a -> Int
 getHeight (TextBox _ h _) = h

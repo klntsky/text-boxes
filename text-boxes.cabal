@@ -21,6 +21,7 @@ library
                    , TextBox.StringLike.String
                    , TextBox.StringLike.Text
                    , TextBox.Utils
+                   , TextBox.Utils.Transform
                    , TextBox.Operators
                    , TextBox.Internals
   other-modules:
