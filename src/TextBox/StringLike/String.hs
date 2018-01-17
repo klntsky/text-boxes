@@ -26,7 +26,7 @@ instance StringLike String where
     | otherwise = length (splitLines str)
   splitLines = splitOn "\n"
   joinLines = concat . intersperse "\n"
-  toString = show
+  toString = id
   append = (++)
   takeN = take
   dropN = drop

@@ -36,6 +36,9 @@ module TextBox
   , hJoinWith
   , vJoin
   , vJoinWith
+    -- * Folds with joiners
+  , hFold , hFoldWith
+  , vFold , vFoldWith
     -- * Size transformers
   , SizeTransformer (unwrapST)
   , WidthTrimmer

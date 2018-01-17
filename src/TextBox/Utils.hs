@@ -21,6 +21,9 @@ module TextBox.Utils
   , hJoinWith
   , vJoin
   , vJoinWith
+    -- * Folds with joiners
+  , hFold , hFoldWith
+  , vFold , vFoldWith
     -- * Trimmers
   , rightTrimmer
   , leftTrimmer
