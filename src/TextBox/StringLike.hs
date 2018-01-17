@@ -12,8 +12,6 @@ Contains 'StringLike' typeclass. -}
 module TextBox.StringLike
   (
     StringLike (..)
-  , mkSpaces
-  , mkRect
   )
 where
 
@@ -75,11 +73,3 @@ class StringLike a where
   dropN :: Int -> a -> a
   -- | Reverse text line.
   inverse :: a -> a
-
-
-mkSpaces :: StringLike a => Int -> a
-mkSpaces n = foldr append empty (replicate n space)
-
-
-mkRect :: StringLike a => Int -> Int -> [a]
-mkRect w h = replicate h (mkSpaces w)

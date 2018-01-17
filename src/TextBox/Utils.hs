@@ -97,7 +97,8 @@ toTextBoxWith wp str =
 fromTextBox :: StringLike a => TextBox a -> a
 fromTextBox (TextBox _ _ ls) = joinLines ls
 
-
+{- | Join boxes horizontally using given 'Heightpadder' to adjust the height of the
+ lower box. -}
 hJoinWith :: StringLike a =>
         HeightPadder
       -> TextBox a
@@ -124,6 +125,8 @@ hJoin :: StringLike a =>
 hJoin = hJoinWith bottomPadder
 
 
+{- | Join boxes vertically using given 'WidthPadder' to adjust the width of the
+narrower box. -}
 vJoinWith :: StringLike a =>
             WidthPadder
           -> TextBox a
@@ -314,7 +317,6 @@ centerWidthPadder :: WidthPadder
 centerWidthPadder = combineEqually leftPadder rightPadder
 
 
-
 -- | Apply 'rightTrimmer'
 trimRight :: StringLike a => Int -> TextBox a -> TextBox a
 trimRight = unwrapST rightTrimmer
@@ -449,3 +451,13 @@ combineProportionally ratio t1 t2 = wrapST $
 -- | Defined as @combineProportionally 1@
 combineEqually :: SizeTransformer t p => t -> t -> t
 combineEqually = combineProportionally 1
+
+
+-- Used internally
+mkSpaces :: StringLike a => Int -> a
+mkSpaces n = foldr append empty (replicate n space)
+
+
+-- Used internally
+mkRect :: StringLike a => Int -> Int -> [a]
+mkRect w h = replicate h (mkSpaces w)
