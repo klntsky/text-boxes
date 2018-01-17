@@ -73,3 +73,4 @@ class StringLike a where
   dropN :: Int -> a -> a
   -- | Reverse text line.
   inverse :: a -> a
+  toList :: a -> [a]

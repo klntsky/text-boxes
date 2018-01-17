@@ -31,3 +31,4 @@ instance StringLike String where
   takeN = take
   dropN = drop
   inverse = reverse
+  toList = map (:[])

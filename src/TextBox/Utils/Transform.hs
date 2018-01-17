@@ -7,12 +7,20 @@ module TextBox.Utils.Transform
 where
 
 import TextBox.Data
+import TextBox.Utils
 import TextBox.StringLike
+
+import Data.List (transpose)
 
 
 -- | Transpose.
 transposeBox :: StringLike a => TextBox a -> TextBox a
-transposeBox (TextBox w h lst) = TextBox h w . reverse $ map inverse lst
+transposeBox (TextBox w h lst)
+  | h == 0 = emptyBoxByHeight w
+  | w == 0 = emptyBoxByWidth h
+  | otherwise =
+      TextBox h w . map (foldr append empty) .
+      transpose . map toList $ lst
 
 
 -- | Flip horizontally.

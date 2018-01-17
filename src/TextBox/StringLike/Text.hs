@@ -28,3 +28,7 @@ instance StringLike T.Text where
   takeN = T.take
   dropN = T.drop
   inverse = T.reverse
+  toList t
+    | t == mempty = []
+    | otherwise =
+        map (T.pack . (:[]) . T.head . flip T.take t) [0 .. (T.length t)]

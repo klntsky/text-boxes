@@ -41,6 +41,7 @@ Test-Suite test
   main-is:           Main.hs
   other-modules:     Test.TextBox.StringLike.String
                    , Test.TextBox.Utils
+                   , Test.TextBox.Utils.Transform
   hs-source-dirs:    test
   build-depends:     text-boxes
                    , base >=4.10 && <4.11
