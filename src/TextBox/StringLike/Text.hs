@@ -1,3 +1,4 @@
+{-# LANGUAGE OverloadedStrings #-}
 {-|
 Module      : TextBox.StringLike.Text
 Description : instance StringLike Text where ...
@@ -22,13 +23,10 @@ instance StringLike T.Text where
     | str == empty = 1
     | otherwise = length (splitLines str)
   splitLines = T.split (=='\n')
-  joinLines = foldr (\t -> T.append t . T.cons '\n') T.empty
+  joinLines = T.intercalate "\n"
   toString = show
   append = T.append
   takeN = T.take
   dropN = T.drop
   inverse = T.reverse
-  toList t
-    | t == mempty = []
-    | otherwise =
-        map (T.pack . (:[]) . T.head . flip T.take t) [0 .. (T.length t)]
+  toList = map (T.pack . (:[])) . T.unpack

@@ -30,6 +30,7 @@ library
                    , FunctionalDependencies
                    , TypeSynonymInstances
                    , FlexibleInstances
+                   , OverloadedStrings
   build-depends:     base >=4.10 && <4.11
                    , split >=0.2 && < 0.3
                    , text >=1.2 && <1.3
@@ -40,6 +41,7 @@ Test-Suite test
   type:              exitcode-stdio-1.0
   main-is:           Main.hs
   other-modules:     Test.TextBox.StringLike.String
+                   , Test.TextBox.StringLike.Text
                    , Test.TextBox.Utils
                    , Test.TextBox.Utils.Transform
   hs-source-dirs:    test
