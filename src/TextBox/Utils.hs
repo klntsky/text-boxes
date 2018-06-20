@@ -1,3 +1,4 @@
+{-# LANGUAGE RankNTypes #-}
 {-|
 Module      : TextBox.Utils
 Description : Utils for working with textboxes.
@@ -451,6 +452,14 @@ combineProportionally ratio t1 t2 = wrapST $
 -- | Defined as @combineProportionally 1@
 combineEqually :: SizeTransformer t p => t -> t -> t
 combineEqually = combineProportionally 1
+
+
+combineConditionally :: (SizeTransformer t p) =>
+  (forall a . TextBox a -> Bool) -> t -> t -> t
+combineConditionally pred t1 t2 = wrapST $
+  \n p -> if pred p
+         then unwrapST t1 n p
+         else unwrapST t2 n p
 
 
 -- Used internally
