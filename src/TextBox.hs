@@ -72,6 +72,8 @@ module TextBox
     -- * Combinators
   , combineProportionally
   , combineEqually
+  , mkWidthSetter
+  , mkHeightSetter
     -- * Transformers
   , hFlip
   , vFlip

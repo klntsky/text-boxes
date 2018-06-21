@@ -49,11 +49,13 @@ module TextBox.Utils
     -- * Combinators
   , combineProportionally
   , combineEqually
+  , mkWidthSetter
+  , mkHeightSetter
   )
 where
 
 
-import Data.Ratio (Ratio, numerator, denominator)
+import Data.Ratio (Ratio, numerator, denominator, (%))
 
 import TextBox.Data
 import TextBox.Internals
@@ -438,19 +440,19 @@ combineProportionally :: SizeTransformer t p =>
             -- sure that the denominator is non-zero.
   -> t -> t -> t
 combineProportionally ratio t1 t2 = wrapST $
-    \n p -> let
+    \n box -> let
       -- Get current value of the property
-      value = getProperty (property t1) p :: Int
+      value = getProperty (property t1) box :: Int
       -- Calculate the difference between the actual and the needed value
       diff = difference t1 n value :: Int
       -- Divide it proportionally and apply two transformers sequentially.
-      n' = (diff * numerator ratio) `div` (numerator ratio + denominator ratio) in
-        unwrapST t1 n $ unwrapST t2 (n - n') p
+      n' = ((diff * numerator ratio) `div` denominator ratio) in
+        unwrapST t1 n $ unwrapST t2 (n - n') box
 
 
--- | Defined as @combineProportionally 1@
+-- | Defined as @combineProportionally (1 % 2)@
 combineEqually :: SizeTransformer t p => t -> t -> t
-combineEqually = combineProportionally 1
+combineEqually = combineProportionally (1 % 2)
 
 
 -- Used internally

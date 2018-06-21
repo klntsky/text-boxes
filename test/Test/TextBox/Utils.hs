@@ -3,13 +3,14 @@ module Test.TextBox.Utils (spec) where
 
 
 import Test.Hspec
+import TextBox
 import TextBox.StringLike
 import TextBox.StringLike.String
 import TextBox.Utils
 import TextBox.Data
 import Test.QuickCheck
-
-
+import qualified Test.QuickCheck as QC
+import Data.Ratio
 
 spec :: Spec
 spec = do
@@ -120,7 +121,7 @@ spec = do
   describe "hJoin" $ do
     it "'emptyBox' is identity of 'hJoin'" $
       ((emptyBox :: TextBox String) `hJoin` emptyBox) `shouldBe` emptyBox
-    it "'emptyBox' is identity of 'hJoin'" $ property $
+    it "'emptyBox' is identity of 'hJoin'" $ QC.property $
       \(s :: String) ->
         ( emptyBox `hJoin` (toTextBox s)
         , (toTextBox s) `hJoin` emptyBox ) `shouldBe`
@@ -146,7 +147,7 @@ spec = do
   describe "vJoin" $ do
     it "'emptyBox' is identity of 'vJoin'" $
       ((emptyBox :: TextBox String) `vJoin` emptyBox) `shouldBe` emptyBox
-    it "'emptyBox' is identity of 'vJoin'" $ property $
+    it "'emptyBox' is identity of 'vJoin'" $ QC.property $
       \(s :: String) ->
         ( emptyBox `vJoin` (toTextBox s)
         , (toTextBox s) `vJoin` emptyBox ) `shouldBe`
@@ -171,3 +172,73 @@ spec = do
       , "111\n22 \n3  "
       , "\n"
       ]
+
+  describe "combineProportionally" $ do
+
+    it "passes tests for 'WidthPadder's" $
+        sequence_ $
+          map (\(ratio, a, n, c) ->
+                 let padder :: WidthPadder
+                     padder = combineProportionally ratio leftPadder rightPadder in
+                   fromTextBox (unwrapST padder n (toTextBox a)) `shouldBe` c)
+          [
+            (1 % 2, "a", 1, "a")
+          , (1 % 2, "a", 2, "a ")
+          , (1 % 2, "a", 3, " a ")
+          , (1 % 2, "a", 4, " a  ")
+          , (1 % 2, "a", 7, "   a   ")
+
+          , (1 % 2, "a", 0, "a")
+          ]
+
+    it "passes tests for 'HeightPadder's" $
+        sequence_ $
+          map (\(ratio, a, n, c) ->
+                 let padder :: HeightPadder
+                     padder = combineProportionally ratio topPadder bottomPadder in
+                  fromTextBox (unwrapST padder n (toTextBox a)) `shouldBe` c)
+          [
+            (1 % 2, "a", 1, "a")
+          , (1 % 2, "a", 2, "a\n ")
+          , (1 % 2, "a", 3, " \na\n ")
+          , (1 % 2, "a", 4, " \na\n \n ")
+          , (1 % 2, "a", 5, " \n \na\n \n ")
+
+          , (1 % 2, "a", 0, "a")
+          ]
+
+    it "passes tests for 'WidthTrimmer's" $
+        sequence_ $
+          map (\(ratio, a, n, c) ->
+                  let trimmer :: WidthTrimmer
+                      trimmer = combineProportionally ratio leftTrimmer rightTrimmer in
+                 fromTextBox (unwrapST trimmer n (toTextBox a)) `shouldBe` c)
+          [
+            (1 % 2, "a", 1, "a")
+          , (1 % 2, "ab", 1, "b")
+          , (1 % 2, "abc", 1, "b")
+          , (1 % 2, "abc", 0, "")
+
+          , (1 % 2, "abc", 10, "abc")
+
+          , (1,  "abc", 1, "c")
+          , (0,  "abc", 1, "a")
+          ]
+
+    it "passes tests for 'WidthSetter's" $
+        sequence_ $
+          map (\(ratio, a, n, c) ->
+                 let setter, setter1, setter2 :: WidthSetter
+                     setter1 = mkWidthSetter leftPadder rightTrimmer
+                     setter2 = mkWidthSetter rightPadder leftTrimmer
+                     setter = combineProportionally ratio setter1 setter2 in
+                   fromTextBox (unwrapST setter n (toTextBox a)) `shouldBe` c)
+          [
+            (1 % 2, "a", 1, "a")
+          , (1 % 2, "a", 2, "a ")
+          , (1 % 2, "a", 3, " a ")
+          , (1 % 2, "a", 4, " a  ")
+          , (1 % 2, "a", 5, "  a  ")
+          , (1 % 2, "abcde", 1, "c")
+          , (1 % 2, "abcde", 3, "bcd")
+          ]
