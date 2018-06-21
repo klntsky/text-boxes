@@ -50,6 +50,7 @@ module TextBox.Utils
     -- * Combinators
   , combineProportionally
   , combineEqually
+  , combineConditionally
   , mkWidthSetter
   , mkHeightSetter
   )
@@ -456,12 +457,13 @@ combineEqually :: SizeTransformer t p => t -> t -> t
 combineEqually = combineProportionally (1 % 2)
 
 
-combineConditionally :: (SizeTransformer t p) =>
+combineConditionally ::
+  (SizeTransformer t prop) =>
   (forall a . TextBox a -> Bool) -> t -> t -> t
 combineConditionally pred t1 t2 = wrapST $
-  \n p -> if pred p
-         then unwrapST t1 n p
-         else unwrapST t2 n p
+  \n box -> if pred box
+           then unwrapST t1 n box
+           else unwrapST t2 n box
 
 
 -- Used internally

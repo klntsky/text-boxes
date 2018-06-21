@@ -1,4 +1,5 @@
 {-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE RankNTypes #-}
 module Test.TextBox.Utils (spec) where
 
 
@@ -242,3 +243,16 @@ spec = do
           , (1 % 2, "abcde", 1, "c")
           , (1 % 2, "abcde", 3, "bcd")
           ]
+
+  describe "combineConditionally" $ do
+    it "passes tests" $
+      sequence_ $
+      let predicate :: forall a . TextBox a -> Bool
+          predicate box = getWidth box > 3 in
+      map (\(t1, t2, n, input, expected) ->
+             let t = combineConditionally predicate t1 t2 in
+               (fromTextBox $ unwrapST t n $ toTextBox input) `shouldBe` expected)
+      [
+        (leftPadder, rightPadder, 5, "asd", "asd  ")
+      , (leftPadder, rightPadder, 5, "asdf", " asdf")
+      ]
