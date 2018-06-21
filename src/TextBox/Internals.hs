@@ -94,29 +94,46 @@ instance SizeTransformer WidthTrimmer Width where
   wrapST = MkWidthTrimmer
   unwrapST (MkWidthTrimmer f) = f
   property = const Width
-  difference = const (flip (-))
+  difference = \_ needed actual ->
+                 if actual > needed then
+                   needed - actual
+                 else 0
+
 instance SizeTransformer HeightTrimmer Height where
   wrapST = MkHeightTrimmer
   unwrapST (MkHeightTrimmer f) = f
   property = const Height
-  difference = const (flip (-))
+  difference = \_ needed actual ->
+                 if actual > needed then
+                   needed - actual
+                 else 0
+
 instance SizeTransformer WidthPadder Width where
   wrapST = MkWidthPadder
   unwrapST (MkWidthPadder f) = f
   property = const Width
-  difference = const (-)
+  difference = \_ needed actual ->
+                if needed > actual then
+                  needed - actual
+                else 0
+
 instance SizeTransformer HeightPadder Height where
   wrapST = MkHeightPadder
   unwrapST (MkHeightPadder f) = f
   property = const Height
-  difference = const (-)
+  difference = \_ needed actual ->
+                if needed > actual then
+                  needed - actual
+                else 0
+
 instance SizeTransformer WidthSetter Width where
   wrapST = MkWidthSetter
   unwrapST (MkWidthSetter f) = f
   property = const Width
-  difference = \_ _ _ -> 0
+  difference = const (-)
+
 instance SizeTransformer HeightSetter Height where
   wrapST = MkHeightSetter
   unwrapST (MkHeightSetter f) = f
   property = const Height
-  difference = \_ _ _ -> 0
+  difference = const (-)

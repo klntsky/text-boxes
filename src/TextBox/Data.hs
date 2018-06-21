@@ -37,10 +37,10 @@ instance Show a => Show (TextBox a) where
 
 
 -- | Get width of a 'TextBox'.
-getWidth :: StringLike a => TextBox a -> Int
+getWidth :: TextBox a -> Int
 getWidth (TextBox w _ _) = w
 
 
 -- | Get height of a 'TextBox'.
-getHeight :: StringLike a => TextBox a -> Int
+getHeight :: TextBox a -> Int
 getHeight (TextBox _ h _) = h
