@@ -247,7 +247,7 @@ spec = do
   describe "combineConditionally" $ do
     it "passes tests" $
       sequence_ $
-      let predicate :: forall a . TextBox a -> Bool
+      let predicate :: TextBox a -> Bool
           predicate box = getWidth box > 3 in
       map (\(t1, t2, n, input, expected) ->
              let t = combineConditionally predicate t1 t2 in

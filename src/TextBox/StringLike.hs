@@ -1,8 +1,8 @@
 {-# LANGUAGE FlexibleInstances #-}
 {-|
 Module      : TextBox.StringLike
-Description : Generalization of multi-line string that can be splitted into a
- list of lines.
+Description : Generalization of the notion of a multi-line string that can be
+splitted into a list of lines.
 Copyright   : (c) klntsky, 2018
 License     : PublicDomain
 Maintainer  : klntsky@gmail.com

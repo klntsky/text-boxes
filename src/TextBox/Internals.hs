@@ -53,7 +53,7 @@ instance TextBoxProperty Height where
   getProperty = const getHeight
 
 
-{- | Typeclass for wrapping, unwrapping and combining functions that modify
+{- | Typeclass for wrapping, unwrapping and combining functions that change the
 'TextBox' size. You need to import "TextBox.Internals" in order to define your
 own transformers.
 
@@ -64,14 +64,16 @@ class TextBoxProperty p => SizeTransformer t p | t -> p where
   wrapST :: (forall a . StringLike a => Int -> TextBox a -> TextBox a) -> t
   -- | Unwrap a transformer.
   --
-  -- 'wrap' and 'unwrapST' must form a bijection.
+  -- 'wrapST' and 'unwrapST' must form a bijection.
   --
   -- Transformers defined in 'TextBox.Utils' have the corresponding functions
   -- to run them directly, e.g. 'TextBox.Utils.trimRight' @ = unwrapST@
   -- 'TextBox.Utils.rightTrimmer'
   unwrapST :: t -> (forall a . StringLike a => Int -> TextBox a -> TextBox a)
+  -- | Combine two 'SizeTransformer's that change the same property.
   combine :: (SizeTransformer a p, SizeTransformer b p) => a -> b -> t
   combine a b = wrapST (\n -> unwrapST a n . unwrapST b n)
+  -- | Get the property that given 'SizeTransformer' may change.
   property :: t -> p
   difference :: t -> Int -> Int -> Int
 

@@ -457,6 +457,8 @@ combineEqually :: SizeTransformer t p => t -> t -> t
 combineEqually = combineProportionally (1 % 2)
 
 
+-- | If the given predicate evaluates to 'True' for a 'TextBox', apply the first
+-- 'SizeTransformer', otherwise apply the second.
 combineConditionally ::
   (SizeTransformer t prop) =>
   (forall a . TextBox a -> Bool) -> t -> t -> t

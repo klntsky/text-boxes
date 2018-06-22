@@ -1,10 +1,6 @@
 module Main where
 
-import TextBox.Data
-import TextBox.Utils
-import TextBox.Internals
-import TextBox.Operators
-import TextBox.StringLike
+import TextBox
 
 import System.Environment (getArgs)
 import Control.Monad (when)

@@ -17,7 +17,6 @@ module TextBox.Data
 where
 
 import TextBox.StringLike
-import TextBox.StringLike.String
 
 
 {- | Data type representing rectangle-shaped block of text.

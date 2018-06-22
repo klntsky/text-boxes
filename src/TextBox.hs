@@ -94,3 +94,5 @@ import TextBox.Utils.Transform
 import TextBox.Internals
 import TextBox.Operators
 import TextBox.StringLike
+import TextBox.StringLike.String
+import TextBox.StringLike.Text
