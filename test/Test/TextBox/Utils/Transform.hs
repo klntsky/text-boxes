@@ -1,8 +1,6 @@
 module Test.TextBox.Utils.Transform (spec) where
 
 import Test.Hspec
-import TextBox.StringLike
-import TextBox.StringLike.String
 import TextBox
 
 spec :: Spec
@@ -13,6 +11,23 @@ spec = do
     it "satisfies transposeBox . transposeBox = id" $
       let boxes = map fst transposeTests in
         map (transposeBox . transposeBox) boxes `shouldBe` boxes
+  describe "hFlip" $ do
+    it "passes assertion checks" $ sequence_ $ map
+      (\(input, expected) ->
+         (fromTextBox . hFlip . toTextBox) input `shouldBe` expected)
+      [
+        ("abc", "cba")
+      , ("abc\ndef", "cba\nfed")
+      ]
+  describe "vFlip" $ do
+    it "passes assertion checks" $ sequence_ $ map
+      (\(input, expected) ->
+         (fromTextBox . vFlip . toTextBox) input `shouldBe` expected)
+      [
+        ("abc", "abc")
+      , ("abc\ndef", "def\nabc")
+      ]
+
 
 transposeTests = [ (toTextBox "",         emptyBoxByWidth 1)
                  , (emptyBoxByWidth 0,    emptyBoxByHeight 0)
